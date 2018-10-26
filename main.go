@@ -91,10 +91,17 @@ func preFunc(text string) string {
 
 // Original Source https://github.com/golang/tools/blob/master/godoc/godoc.go#L562
 func srcLinkFunc(s string) string {
-	s = path.Clean("/" + s)
-	if !strings.HasPrefix(s, "/src/") {
-		s = "/src" + s
-	}
+	s = path.Clean("./" + s)
+	//if !strings.HasPrefix(s, "/src/") {
+	//s = "/src" + s
+	//}
+	s = strings.TrimPrefix(s, "/src/target/")
+	s = strings.TrimPrefix(s, "/target")
+	s = strings.TrimPrefix(s, "target/")
+	folder, _ := os.Getwd()
+	folder = strings.SplitAfter(folder, "shipt-")[1]
+	folder = strings.SplitAfterN(folder, "/", 2)[1]
+	s = `/` + folder + `/` + s
 	return s
 }
 
